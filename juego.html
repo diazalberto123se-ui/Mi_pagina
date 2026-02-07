@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Juego del Color</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #0b1220;
+    font-family: system-ui, Arial, sans-serif;
+    color: #e5e7eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .game-container {
+    width: 360px;
+    background: #111827;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    text-align: center;
+  }
+
+  h1 {
+    color: #c9a227;
+    margin-bottom: 10px;
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .time-bar {
+    width: 100%;
+    height: 10px;
+    background: #1f2933;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+
+  .time-fill {
+    height: 100%;
+    width: 100%;
+    background: #22c55e;
+    transition: width 0.1s linear, background 0.2s;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .cell {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  button {
+    background: #c9a227;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="game-container">
+
+  <h1>🎨 Color Challenge</h1>
+
+  <div class="info">
+    <div>Puntos: <span id="score">0</span></div>
+    <div>Tiempo: <span id="timeText">5</span>s</div>
+  </div>
+
+  <div class="time-bar">
+    <div class="time-fill" id="timeFill"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <button onclick="togglePause()">⏸ Pausa</button>
+
+  <!-- Pantalla de perder -->
+  <div id="gameOver" class="hidden">
+    <h2>Perdiste 😬</h2>
+    <button onclick="startGame()">Reintentar</button>
+    <button onclick="goHome()">Volver al inicio</button>
+  </div>
+
+</div>
+
+<script>
+  const grid = document.getElementById("grid");
+  const scoreEl = document.getElementById("score");
+  const timeText = document.getElementById("timeText");
+  const timeFill = document.getElementById("timeFill");
+  const gameOverScreen = document.getElementById("gameOver");
+
+  let score = 0;
+  let time = 5;
+  let timer;
+  let paused = false;
+
+  function randomColor() {
+    const r = Math.floor(Math.random() * 200);
+    const g = Math.floor(Math.random() * 200);
+    const b = Math.floor(Math.random() * 200);
+    return { r, g, b };
+  }
+
+  function colorToString(c) {
+    return `rgb(${c.r}, ${c.g}, ${c.b})`;
+  }
+
+  function createGrid() {
+    grid.innerHTML = "";
+
+    const base = randomColor();
+    const difficulty = Math.max(10, 50 - score);
+    const diff = { ...base, r: base.r + difficulty };
+
+    const correctIndex = Math.floor(Math.random() * 16);
+
+    for (let i = 0; i < 16; i++) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.background = i === correctIndex
+        ? colorToString(diff)
+        : colorToString(base);
+
+      cell.onclick = () => {
+        if (i === correctIndex) {
+          score += 2;
+          scoreEl.textContent = score;
+          resetTime();
+          createGrid();
+        }
+      };
+
+      grid.appendChild(cell);
+    }
+  }
+
+  function resetTime() {
+    time = 5;
+  }
+
+  function updateTimer() {
+    if (paused) return;
+
+    time -= 0.1;
+    if (time <= 0) {
+      endGame();
+      return;
+    }
+
+    timeText.textContent = Math.ceil(time);
+    const percent = (time / 5) * 100;
+    timeFill.style.width = percent + "%";
+
+    if (time <= 2) {
+      timeFill.style.background = "#ef4444";
+    } else {
+      timeFill.style.background = "#22c55e";
+    }
+  }
+
+  function togglePause() {
+    paused = !paused;
+  }
+
+  function endGame() {
+    clearInterval(timer);
+    grid.innerHTML = "";
+    gameOverScreen.classList.remove("hidden");
+  }
+
+  function startGame() {
+    score = 0;
+    time = 5;
+    paused = false;
+    scoreEl.textContent = score;
+    gameOverScreen.classList.add("hidden");
+    createGrid();
+    clearInterval(timer);
+    timer = setInterval(updateTimer, 100);
+  }
+
+  function goHome() {
+    window.location.href = "index.html";
+  }
+
+  startGame();
+</script>
+
+</body>
+</html>
