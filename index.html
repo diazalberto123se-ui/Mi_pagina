@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi primera página web</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background-color: #0b1220;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: system-ui, Arial, sans-serif;
+      color: #e5e7eb;
+    }
+
+    .card {
+      background-color: #111827;
+      padding: 50px 40px;
+      max-width: 600px;
+      text-align: center;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      color: #c9a227;
+      font-size: 42px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .intro {
+      font-size: 18px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    img {
+      width: 100%;
+      max-width: 280px;
+      border-radius: 14px;
+      margin: 30px 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .personal {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      color: #d1d5db;
+    }
+    .btn {
+     display: inline-block;
+     margin-top: 20px;
+     padding: 14px 30px;
+     background-color: #c9a227;
+     color: #111827;
+     text-decoration: none;
+     font-weight: bold;
+     border-radius: 10px;
+     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+    footer {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+
+    footer strong {
+      color: #e5e7eb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <h1>Bienvenido a mi página</h1>
+
+    <p class="intro">
+      Esta página representa el inicio de un camino en el desarrollo web,
+      donde cada detalle importa y cada decisión tiene intención.
+    </p>
+
+   <img src="Mi_imagen.jpg" alt="Imagen personal">
+
+    <p class="personal">
+      Pensé que sería más difícil, pero como dicen: el que no intenta no logra.
+      Cuando de verdad te gusta algo, no miras el reloj de otros, miras el tuyo
+      y no te apresuras.
+    </p>
+    
+    <a href="juego.html" class="btn">Ir al juego 🎮</a>
+
+    <footer>
+      <strong>Alberto Leonel Díaz Ake</strong>
+    </footer>
+
+  </div>
+
+</body>
+</html>
